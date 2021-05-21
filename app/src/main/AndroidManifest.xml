@@ -20,9 +20,17 @@
 
         <meta-data
             android:name="com.legion.APP_ID"
-            android:value="YOUR APP_ID"/>
+            android:value="PROD4bc49dfeee0d4059b4e73835aaf2e4b4"/>
         <meta-data
             android:name="com.legion.PUBLIC_KEY"
-            android:value="YOUR PUBLIC KEY"/>
+            android:value="-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlKD6/ndynF63tZV7hoVA
+goccOJlgybLgqXHQMD89Hf9/ZaQYAUhU7/+GKuIXsDvmngdk844R1jFVwBxQvS4y
+UO1A7GJ0bIgPMapyFBsKOqKj39TAK4UzgIt7a/FnF/pKVgE9HJUI5a8QAdgXyBIe
+dWGTEmXiBBMAcGFrVEOclYgCj4S5DtFbSTqlXAV2AEvGCmP1JlnwNfTU4hAmXQZF
+2OfyrvvhkxPvAtfUUxonCsrm12J3ZZas8sggN6squ/OZwZUbuAq5vQUK6lB3s+BE
+ez+zrruPW1iHWYMhUEa2MPQFCjQaeIZp3DF+uxqFQ/dCDSQYPAegOvotczoEvZH6
+aQIDAQAB
+-----END PUBLIC KEY-----"/>
     </application>
 </manifest>

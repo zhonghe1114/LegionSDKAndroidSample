@@ -17,9 +17,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
-import com.lenovo.legionrealm.opensdk.LegionOpenSdk;
-import com.lenovo.legionrealm.opensdk.common.LegionCallback;
-import com.lenovo.legionrealm.opensdk.common.PaymentCallback;
+import com.lenovo.legionrealm.store.LegionStoreSDK;
+import com.lenovo.legionrealm.store.common.LegionCallback;
+import com.lenovo.legionrealm.store.common.PaymentCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mBtnProducts;
     private Button mBtnPurchased;
     private RecyclerView mRvProducts;
-    //The LegionOpenSdk created a singleton
+    //The LegionStoreSDK created a singleton
     private List<Product> mProductsList = new ArrayList<>();
     private List<OrderBean> mOrdersList = new ArrayList<>();
     private ProgressDialog progressDialog;
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("LegionOpenSdk: Initialize  v"+ BuildConfig.VERSION_NAME);
+        setTitle("LegionStoreSDK: Initialize  v"+ BuildConfig.VERSION_NAME);
 
         initView();
     }
@@ -133,15 +133,15 @@ public class MainActivity extends AppCompatActivity {
         btnInit.setOnClickListener(v -> {
 
             showProgress();
-            // you can use this way to init LegionOpenSdk.
+            // you can use this way to init LegionStoreSDK.
             // you must provide params in AndroidManifest.xml
-            LegionOpenSdk.initialize(mInitCallback, this);
+            LegionStoreSDK.initialize(mInitCallback, this);
 
         });
 
         findViewById(R.id.btn_logout).setOnClickListener(v -> {
             try {
-                LegionOpenSdk.getInstance().logout(new LegionCallback() {
+                LegionStoreSDK.getInstance().logout(new LegionCallback() {
                     @Override
                     public void onSuccess(String response) {
                         showToast(MainActivity.this, response);
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.btn_verify).setOnClickListener(v -> {
             showProgress();
-            LegionOpenSdk.getInstance().checkLicense(new LegionCallback() {
+            LegionStoreSDK.getInstance().checkLicense(new LegionCallback() {
 
                 @Override
                 public void onSuccess(String info) {
@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.btn_products).setOnClickListener(v -> {
             showProgress();
-            LegionOpenSdk.getInstance().queryProducts(new LegionCallback() {
+            LegionStoreSDK.getInstance().queryProducts(new LegionCallback() {
                 @Override
                 public void onSuccess(String result) {
                     hideProgress();
@@ -199,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.btn_purchased).setOnClickListener(v -> {
             showProgress();
-            LegionOpenSdk.getInstance().restorePurchases(new LegionCallback() {
+            LegionStoreSDK.getInstance().restorePurchases(new LegionCallback() {
                 @Override
                 public void onSuccess(String result) {
                     hideProgress();
@@ -227,19 +227,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void consumePurchase(String purchase_id, String token) {
-        LegionOpenSdk.getInstance().consume(new LegionCallback() {
+        LegionStoreSDK.getInstance().consume(new LegionCallback() {
             @Override
             public void onSuccess(String response) {
                 hideProgress();
                 showToast(MainActivity.this, "Consumption successful!");
-                Log.d("mLegionOpenSdk", "response = "+response);
-                LegionOpenSdk.getInstance().closePaymentUI();
+                Log.d("mLegionStoreSDK", "response = "+response);
+                LegionStoreSDK.getInstance().closePaymentUI();
             }
 
             @Override
             public void onError(String error) {
                 hideProgress();
-                Log.e("mLegionOpenSdk", "error = "+error);
+                Log.e("mLegionStoreSDK", "error = "+error);
                 showToast(MainActivity.this, "Consuming error:" + error);
             }
         }, purchase_id, token);
@@ -292,7 +292,7 @@ public class MainActivity extends AppCompatActivity {
                 mRvProducts.setAdapter(adapter);
                 adapter.setOnItemClickListener(position -> {
                     final Product product = mProductsList.get(position);
-                    LegionOpenSdk.getInstance().purchase(mPaymentCallback, MainActivity.this, product.getProduct_id(), "cporderid----", "dev-0110");
+                    LegionStoreSDK.getInstance().purchase(mPaymentCallback, MainActivity.this, product.getProduct_id(), "cporderid----", "dev-0110");
                 });
 
                 showProducts("Products");
@@ -399,7 +399,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void showPaymentDialog(DialogInterface.OnClickListener listener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setMessage("After the payment is successful, the goods need to be distributed. After the goods are successfully distributed, LegionOpenSdk.getInstance().consume() needs to be called");
+        builder.setMessage("After the payment is successful, the goods need to be distributed. After the goods are successfully distributed, LegionStoreSDK.getInstance().consume() needs to be called");
         builder.setPositiveButton("consume", listener);
         builder.setNegativeButton("Cancel", null);
         AlertDialog dialog = builder.create();

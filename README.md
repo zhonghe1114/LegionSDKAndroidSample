@@ -1,1 +1,1 @@
-Legion Realm OpenSDK Android sample code
+Legion Realm StoreSDK Android sample code
